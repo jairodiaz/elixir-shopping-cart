@@ -3,41 +3,32 @@ defmodule CartTest do
   doctest Cart
 
   test "creating a cart creates an empty cart" do
-    assert Cart.new == %{current: [], events:[]}
-  end
-
-  test "Cart.add should return ok" do
-    cart = Cart.new
-    assert Cart.add(cart, "apple") == {:ok, _}
+    assert Cart.new == %{current: [], events: []}
   end
 
   test "Cart.add should return a new cart with the item added to :current" do
-    cart = Cart.new
-    {:ok, cart} = Card.add(cart, "orange")
-    {:ok, cart} = Card.add(cart, "apple")
+    cart = Cart.new |> Cart.add("orange") |> Cart.add("apple")
 
-    assert cart == %{
+    assert %{
       current: ["apple", "orange"],
       events: _
-    }
+    } = cart
   end
 
+  @tag :skip
   test "Cart.add should return a new cart with a new event prepended" do
-    cart = Cart.new
-    {:ok, cart} = Card.add(cart, "orange")
-    {:ok, cart} = Card.add(cart, "apple")
+    cart = Cart.new |> Cart.add("orange") |> Cart.add("apple")
 
-    assert cart == %{
+    assert %{
       current: _,
       events: [
         {"apple", :add, _},
         {"orange", :add, _}
       ]
-    }
+    } = cart
   end
 
   @tag :skip
   test "events should contain timestamps" do
-    
   end
 end
