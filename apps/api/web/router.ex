@@ -5,7 +5,12 @@ defmodule ShoppingCart.Api.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", ShoppingCart.Api do
+  scope "/", ShoppingCart.Api do
     pipe_through :api
+
+    post "/add", CartController, :add
+    post "/remove", CartController, :remove
+    get "/view", CartController, :view
+    get "/at/:timestamp", CartController, :at
   end
 end
