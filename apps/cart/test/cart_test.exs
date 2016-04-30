@@ -2,21 +2,34 @@ defmodule CartTest do
   use ExUnit.Case
   doctest Cart
 
-  test "the cart should be empty" do
-    assert Cart.current == []
+  test "creating a cart creates an empty cart" do
+    assert Cart.new == %{current: [], events: []}
   end
 
-  test "adding to cart should return ok" do
-    assert Cart.add("apple") == {:ok, _}
-  end
+  test "Cart.add should return a new cart with the item added to :current" do
+    cart = Cart.new |> Cart.add("orange") |> Cart.add("apple")
 
-  test "adding" do
-    %{
+    assert %{
       current: ["apple", "orange"],
+      events: _
+    } = cart
+  end
+
+  test "Cart.add should return a new cart with a new event prepended" do
+    cart = Cart.new |> Cart.add("orange") |> Cart.add("apple")
+
+    IO.inspect cart
+
+    assert %{
+      current: _,
       events: [
-        {"apple", :add, 2},
-        {"orange", :add, 1}
+        {"apple", :add, _},
+        {"orange", :add, _}
       ]
-    }
+    } = cart
+  end
+
+  @tag :skip
+  test "events should contain timestamps" do
   end
 end

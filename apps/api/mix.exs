@@ -21,7 +21,7 @@ defmodule ShoppingCart.Api.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {ShoppingCart.Api, []},
-     applications: [:phoenix, :cowboy, :logger, :gettext]]
+     applications: [:phoenix, :cowboy, :logger, :gettext, :timex]]
   end
 
   # Specifies which paths to compile per environment.
