@@ -18,12 +18,39 @@ defmodule CartTest do
   test "Cart.add should return a new cart with a new event prepended" do
     cart = Cart.new |> Cart.add("orange") |> Cart.add("apple")
 
-    IO.inspect cart
-
     assert %{
       current: _,
       events: [
         {"apple", :add, _},
+        {"orange", :add, _}
+      ]
+    } = cart
+  end
+
+  test "Cart.remove should return a new cart without the most recent added item that matches" do
+    cart = %{
+      current: ["apple", "orange"],
+      events: []
+    } |> Cart.remove("orange")
+
+    assert %{
+      current: ["apple"],
+      events: _
+    } = cart
+  end
+
+  test "Cart.remove should return a new cart with a new event prepended" do
+    cart = %{
+      current: ["apple", "orange"],
+      events: [
+        {"orange", :add, Timex.Time.now}
+      ]
+    } |> Cart.remove("orange")
+
+    assert %{
+      current: _,
+      events: [
+        {"orange", :remove, _},
         {"orange", :add, _}
       ]
     } = cart
